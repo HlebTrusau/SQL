@@ -2,7 +2,8 @@
 SELECT model,speed, hd FROM pc WHERE (cd='12x'AND price<600) OR (cd='24x' AND price<600)
 
 //Для каждого производителя, выпускающего ПК-блокноты c объёмом жесткого диска не менее 10 Гбайт, найти скорости таких ПК-блокнотов. Вывод: производитель, скорость.
-SELECT DISTINCT maker, speed FROM product JOIN  laptop ON product.model=laptop.model 
+SELECT DISTINCT maker, speed 
+FROM product JOIN  laptop ON product.model=laptop.model 
 WHERE hd>= 10
 
 //Найдите номера моделей и цены всех имеющихся в продаже продуктов (любого типа) производителя B (латинская буква).
@@ -21,7 +22,7 @@ FROM product product
 JOIN laptop ON product.model=laptop.model
 WHERE maker='B'
 
-Найдите размеры жестких дисков, совпадающих у двух и более PC. Вывести: HD
+//Найдите размеры жестких дисков, совпадающих у двух и более PC. Вывести: HD
 SELECT DISTINCT hd
 FROM pc
 GROUP BY hd 
@@ -34,18 +35,18 @@ WHERE a.ram=b.ram
 AND   a.speed=b.speed
 AND   a.model>b.model
 
-Найдите модели ПК-блокнотов, скорость которых меньше скорости каждого из ПК.
+//Найдите модели ПК-блокнотов, скорость которых меньше скорости каждого из ПК.
 Вывести: type, model, speed
 SELECT DISTINCT product.type, laptop.model, laptop.speed
 FROM laptop,product
 WHERE speed < ALL (SELECT speed FROM pc) AND laptop.model=product.model
 
-Найдите производителей самых дешевых цветных принтеров. Вывести: maker, price
+//Найдите производителей самых дешевых цветных принтеров. Вывести: maker, price
 SELECT DISTINCT maker, price
 FROM product, printer
 WHERE product.model=printer.model AND printer.price = (SELECT MIN(price) FROM printer pr2 WHERE pr2.color='y') AND printer.color='y'
 
-Перечислите номера моделей любых типов, имеющих самую высокую цену по всей имеющейся в базе данных продукции.
+//Перечислите номера моделей любых типов, имеющих самую высокую цену по всей имеющейся в базе данных продукции.
   WITH result AS (
   SELECT model, price FROM laptop
   UNION
